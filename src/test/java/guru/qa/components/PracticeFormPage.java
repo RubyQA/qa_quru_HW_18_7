@@ -2,6 +2,7 @@ package guru.qa.components;
 
 import com.codeborne.selenide.SelenideElement;
 
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 
@@ -10,19 +11,18 @@ public class PracticeFormPage {
     public SelenideElement firstNameInput = $("#firstName");
     public SelenideElement lastNameInput = $("#lastName");
     public SelenideElement userEmailInput = $("#userEmail");
-    public SelenideElement genderRadioButton = $("#genterWrapper").$(byText("Male"));
+    public SelenideElement genderRadioButton = $("#genterWrapper");
     public SelenideElement dateOfBirthInput = $("#dateOfBirthInput");
-    public SelenideElement monthSelect = $(".react-datepicker__month-select");
-    public SelenideElement yearSelect = $(".react-datepicker__year-select");
-    public SelenideElement dayOfMonth = $("[aria-label=\"Choose Monday, January 1st, 1990\"]");
     public SelenideElement userNumberInput = $("#userNumber");
     public SelenideElement subjectsInput = $("#subjectsInput");
-    public SelenideElement hobbiesCheckbox = $("#hobbiesWrapper").$(byText("Sports"));
+    public SelenideElement hobbiesCheckbox = $("#hobbiesWrapper");
     public SelenideElement uploadPictureInput = $("#uploadPicture");
     public SelenideElement currentAddressInput = $("#currentAddress");
     public SelenideElement stateDropdown = $("#state");
     public SelenideElement cityDropdown = $("#city");
     public SelenideElement submitButton = $("#submit");
+    public SelenideElement tableResponsive = $(".table-responsive");
+
 
     public void setFirstName(String name) {
         firstNameInput.setValue(name);
@@ -36,17 +36,15 @@ public class PracticeFormPage {
         userEmailInput.setValue(email);
     }
 
-    public void selectGender() {
-        genderRadioButton.click();
+    public void selectGender(String gender) {
+        genderRadioButton.$(byText(gender)).click();
     }
 
-    public void setDateOfBirth(String month, String year) {
+    public void setDateOfBirth(String day, String month, String year) {
         dateOfBirthInput.click();
-        monthSelect.click();
-        monthSelect.selectOption(month);
-        yearSelect.click();
-        yearSelect.selectOption(year);
-        dayOfMonth.click();
+        $(".react-datepicker__month-select").selectOption(month);
+        $(".react-datepicker__year-select").selectOption(year);
+        $(".react-datepicker__day--0" + day + ":not(.react-datepicker__day--outside-month)").click();
     }
 
     public void setUserNumber(String number) {
@@ -57,8 +55,8 @@ public class PracticeFormPage {
         subjectsInput.setValue(subject).pressEnter();
     }
 
-    public void selectHobby() {
-        hobbiesCheckbox.click();
+    public void selectHobby(String hobby) {
+        hobbiesCheckbox.$(byText(hobby)).click();
     }
 
     public void uploadPicture(String filePath) {
@@ -81,5 +79,9 @@ public class PracticeFormPage {
 
     public void submitForm() {
         submitButton.click();
+    }
+
+    public void checkTable(String text) {
+        tableResponsive.shouldHave(text(text));
     }
 }
