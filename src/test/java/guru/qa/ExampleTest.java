@@ -1,16 +1,13 @@
 package guru.qa;
 
-
 import com.codeborne.selenide.Configuration;
+import guru.qa.components.PracticeFormPage;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-
-import java.io.File;
-
-import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.open;
 
 public class ExampleTest {
     @BeforeAll
@@ -18,34 +15,27 @@ public class ExampleTest {
         Configuration.baseUrl = "https://demoqa.com";
         Configuration.holdBrowserOpen = true;
         Configuration.browserSize = "1700x1200";
-
     }
     @Test
     void fillFormTest(){
         open("/automation-practice-form");
-        $("#firstName").setValue("Test");
-        $("#lastName").setValue("TestLastName");
-        $("#userEmail").setValue("test@test.com");
-        $("#genterWrapper").$(byText("Male")).click();
-        $("#dateOfBirthInput").click();
-        $(".react-datepicker__month-select").click();
-        $(".react-datepicker__month-select>option:nth-child(1)").click();
-        $(".react-datepicker__year-select").click();
-        $(".react-datepicker__year-select>option:nth-child(91)").click();
-        $("[aria-label=\"Choose Monday, January 1st, 1990\"]").click();
-        $("#userNumber").setValue("1111111111");
-        $("#subjectsInput").setValue("M").pressEnter();
-        $("#hobbiesWrapper").$(byText("Sports")).click();
-        File file = new File("src/test/resources/pictures/Screenshot_1.png");
-        $("#uploadPicture").uploadFile(file);
-        $("#currentAddress").setValue("Test");
-        executeJavaScript("$('footer').remove()");
-        executeJavaScript("$('#fixedban').remove()");
-        $("#state").click();
-        $("#react-select-3-option-0").click();
-        $("#city").click();
-        $("#react-select-4-option-0").click();
-        $("#submit").click();
+
+        PracticeFormPage form = new PracticeFormPage();
+
+        form.setFirstName("Test");
+        form.setLastName("TestLastName");
+        form.setUserEmail("test@test.com");
+        form.selectGender();
+        form.setDateOfBirth("January", "1990");
+        form.setUserNumber("1111111111");
+        form.setSubject("Maths");
+        form.selectHobby();
+        form.uploadPicture("Screenshot_1.png");
+        form.setCurrentAddress("Test");
+        form.selectState("NCR");
+        form.selectCity("Delhi");
+        form.submitForm();
+
         $(".table-responsive").shouldHave(text("Test TestLastName"));
         $(".table-responsive").shouldHave(text("test@test.com"));
         $(".table-responsive").shouldHave(text("Male"));
