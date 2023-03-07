@@ -5,7 +5,7 @@ import com.codeborne.selenide.SelenideElement;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
-
+import static com.codeborne.selenide.Selenide.executeJavaScript;
 public class PracticeFormPage {
 
     public SelenideElement firstNameInput = $("#firstName");
@@ -83,5 +83,11 @@ public class PracticeFormPage {
 
     public void checkTable(String text) {
         tableResponsive.shouldHave(text(text));
+    }
+
+
+    public void removeElements() {
+        executeJavaScript("$('footer').remove()");
+        executeJavaScript("$('#fixedban').remove()");
     }
 }

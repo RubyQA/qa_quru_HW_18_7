@@ -20,8 +20,7 @@ public class ExampleTest {
         open("/automation-practice-form");
 
         PracticeFormPage form = new PracticeFormPage();
-        executeJavaScript("$('footer').remove()");
-        executeJavaScript("$('#fixedban').remove()");
+        form.removeElements();
         form.setFirstName("Test");
         form.setLastName("TestLastName");
         form.setUserEmail("test@test.com");
